@@ -18,8 +18,18 @@ public class Main {
                     Education.values()[new Random().nextInt(Education.values().length)])
             );
         }
-        persons.stream().filter(x -> x.getAge() < 18).count();
-        persons.stream().filter(x -> (x.getAge() >= 18) || (x.getAge() <= 27)).map(x -> x.getFamily()).collect(Collectors.toList());
-        persons.stream().filter(x -> ((x.getEducation().equals(Education.HIGHER) && x.getAge() >= 18) && ((x.getSex().equals(Sex.MAN) && x.getAge() <= 65) || (x.getSex().equals(Sex.WOMAN) && x.getAge() <= 60)))).sorted(Comparator.comparing(Person::getFamily)).collect(Collectors.toList());
+        long count = persons.stream()
+                .filter(x -> x.getAge() < 18)
+                .count();
+        System.out.println("Количество несовершеннолетних: " + count);
+        List<String> mil = persons.stream()
+                .filter(x -> (x.getAge() >= 18) || (x.getAge() <= 27))
+                .map(x -> x.getFamily()).collect(Collectors.toList());
+        System.out.println("Список военнообязанных:\n" + mil);
+        List<Person> hel = persons.stream()
+                .filter(x -> ((x.getEducation().equals(Education.HIGHER) && x.getAge() >= 18) && ((x.getSex().equals(Sex.MAN) && x.getAge() <= 65) || (x.getSex().equals(Sex.WOMAN) && x.getAge() <= 60))))
+                .sorted(Comparator.comparing(Person::getFamily))
+                .collect(Collectors.toList());
+        System.out.println("Список трудоспособных с высшим образованием:\n" + hel);
     }
 }
